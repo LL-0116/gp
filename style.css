@@ -1,6 +1,6 @@
 /* --- 基础重置 --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-body { overflow: hidden; background: #000; color: #fff; }
+body { overflow: hidden; background: #000; color: #fff; width: 100vw; height: 100vh; position: relative; }
 
 /* --- 测试前置引导屏样式 --- */
 #pre-test-screen {
@@ -17,21 +17,37 @@ body { overflow: hidden; background: #000; color: #fff; }
     background: #fff; color: #000; font-weight: bold; cursor: pointer;
 }
 
-/* --- 视频播放器 --- */
+/* --- 视频播放器 (适配 16:8 比例居中容器) --- */
 #video-container {
-    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: calc(100vw * 8 / 16); /* 严格锁定 16:8 比例高度 */
+    max-height: 100vh;
+    max-width: calc(100vh * 16 / 8);
+    z-index: 1;
+    overflow: hidden;
 }
 #bg-video { width: 100%; height: 100%; object-fit: cover; }
 
-/* --- 交互热区系统 --- */
-#interaction-layer { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10; }
-.hotspot-group { position: absolute; width: 100%; height: 100%; }
+/* --- 交互热区系统 (与 16:8 视口完美重合) --- */
+#interaction-layer {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: calc(100vw * 8 / 16);
+    max-height: 100vh;
+    max-width: calc(100vh * 16 / 8);
+    z-index: 10;
+    pointer-events: none; /* 默认穿透，由内部热区单独开启点击 */
+}
+.hotspot-group { position: absolute; width: 100%; height: 100%; pointer-events: auto; }
 .hidden { display: none !important; }
 
-/* 🌟 热区调试样式：目前是红色半透明，方便你对齐视频 UI。全部对齐后，请改为 background-color: transparent; */
-.hotspot { position: absolute; background-color: rgba(255, 0, 0, 0.4); cursor: pointer; }
+/* 🌟 热区调试样式：目前是红色半透明，方便你对齐视频 UI。全部对齐后，可改为 background-color: transparent; */
+.hotspot { position: absolute; background-color: rgba(255, 0, 0, 0.4); cursor: pointer; pointer-events: auto; }
 
-/* 具体的触控位置配置 (请根据你导出的视频里按钮的实际位置修改这些百分比) */
+/* 具体的触控位置配置 */
 #btn-l1 { top: 60%; left: 10%; width: 80%; height: 8%; }
 #btn-l2 { top: 72%; left: 10%; width: 80%; height: 8%; }
 .fullscreen-hotspot { top: 0; left: 0; width: 100%; height: 100%; }
