@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>NDCS Wayfinding Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 【测试前置引导屏】 -->
+    <div id="pre-test-screen" class="active">
+        <div class="intro-card">
+            <h1>欢迎参与 NDCS 寻路体验测试</h1>
+            <p>这是一个纯静音的交互测试。在测试过程中，请注意画面边缘的光晕、画面的震颤以及界面的动态变化。请根据屏幕提示和您的直觉做出选择。</p>
+            <button onclick="startTest()">🔘 我已了解，开始测试</button>
+        </div>
+    </div>
+
+    <!-- 【视频底层】 -->
+    <div id="video-container">
+        <video id="bg-video" loop muted playsinline webkit-playsinline></video>
+    </div>
+
+    <!-- 【交互热区层】 -->
+    <div id="interaction-layer" class="hidden">
+        
+        <!-- Scene 1：起点选择热区 -->
+        <div id="hotspots-scene1" class="hotspot-group hidden">
+            <div class="hotspot" id="btn-l1" onclick="chooseRoute('l1')"></div>
+            <div class="hotspot" id="btn-l2" onclick="chooseRoute('l2')"></div>
+        </div>
+
+        <!-- Scene 2：L2 半屏阻断弹窗全屏热区 -->
+        <div id="hotspots-scene2-l2" class="hotspot-group hidden">
+            <div class="hotspot fullscreen-hotspot" onclick="dismissL2Modal()"></div>
+        </div>
+
+        <!-- Scene 5：求助干预热区 -->
+        <div id="hotspots-scene5-sos" class="hotspot-group hidden">
+            <div class="hotspot" id="btn-sos-icon" onclick="showHelpCard()"></div>
+            <div class="hotspot hidden" id="btn-call-staff" onclick="callGreenVest()"></div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
